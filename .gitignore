@@ -17,8 +17,14 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+*.json
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+*.json
+.eslintrc.cjs
+tailwind.config.js
+postcss.config.js
+
