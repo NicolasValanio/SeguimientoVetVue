@@ -1,6 +1,6 @@
 <script setup>
-import Header from './components/Header.vue';
-import Formulario from './components/Formulario.vue';
+import Header from './components/Header.vue'
+import Formulario from './components/Formulario.vue'
 </script>
 
 
