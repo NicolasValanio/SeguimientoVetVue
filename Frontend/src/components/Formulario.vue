@@ -1,46 +1,54 @@
 <script setup>
-import { reactive } from 'vue'
-import Swal from 'sweetalert2'
-
-const Alertas={
-  // Alerta registro
-  AlertaRegistro(mensaje){
-    Swal.fire({
-    // position: 'top-end',
-      icon: 'success',
-      title: `${mensaje}`,
-      showConfirmButton: false,
-      timer: 1500
-    })
-  },
-
-  //   Alerta Error
-  AlertaError(mensaje){
-    Swal.fire({
-      icon: 'error',
-      title: 'Oops...',
-      text: `${mensaje}`,
-    })
-  }
-}
-
-const Paciente=reactive({
-  nombre:'',
-  propietario:'',
-  telefono:'',
-  email:'',
-  alta:'',
-  sintomas:''
-})
+import {computed} from 'vue'
+import Alertas from './Alertas'
 
 const validar =()=>{
-  if (Object.values(Paciente).includes('')) {
+  if (Object.values(props).includes('')) {
     Alertas.AlertaError('Todos los campos son obligatorios')
     return
   }else{
     Alertas.AlertaRegistro('Paciente registrado con éxito')
+    emit('guardarPaciente')
   }
 }
+
+
+const emit = defineEmits(['update:nombre', 'update:propietario', 'update:telefono', 'update:email', 'update:alta','update:sintomas','guardarPaciente'])
+
+const props = defineProps({
+  id:{
+    type:[String, null],
+    required:true
+  },
+  nombre:{
+    type: String,
+    required: true 
+  },
+  propietario:{
+    type: String,
+    required: true
+  },
+  telefono:{
+    type: String,
+    required: true
+  },
+  email:{
+    type: String,
+    required: true
+  },
+  alta:{
+    type: String,
+    required: true
+  },
+  sintomas:{
+    type: String,
+    required: true
+  }
+})
+
+const editando = computed(()=>{
+  return props.id 
+})
 
 </script>
 
@@ -65,7 +73,8 @@ const validar =()=>{
                 placeholder="Nombre de la Mascota" 
                 id="mascota"
                 class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-                v-model="Paciente.nombre"
+                :value="nombre"
+                @input="$emit('update:nombre', $event.target.value)"
                 >
                 
                 
@@ -80,7 +89,9 @@ const validar =()=>{
                 placeholder="Nombre del propietario"
                 id="propietario"
                 class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-                v-model="Paciente.propietario">
+                :value="propietario"
+                @input="$emit('update:propietario', $event.target.value)"
+                >
                                     
         </div>
 
@@ -93,7 +104,9 @@ const validar =()=>{
                 placeholder="Telefono del propietario"
                 id="telefono"
                 class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-                v-model="Paciente.telefono">
+                :value="telefono"
+                @input="$emit('update:telefono', $event.target.value)"
+               >
                 
         </div>
 
@@ -106,7 +119,9 @@ const validar =()=>{
                 placeholder="Email del propietario"
                 id="email"
                 class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-                v-model="Paciente.email">
+                :value="email"
+                @input="$emit('update:email', $event.target.value)"
+               >
                 
         </div>
 
@@ -118,7 +133,9 @@ const validar =()=>{
                 type="date"
                 id="alta"
                 class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
-                v-model="Paciente.alta">     
+                :value="alta"
+                @input="$emit('update:alta', $event.target.value)"
+               >     
         </div>
 
         <div class="mb-5">
@@ -129,15 +146,18 @@ const validar =()=>{
                 placeholder="Describe los síntomas"
                 id="Síntomas"
                 class="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md h-40"
-                v-model="Paciente.sintomas">
+                :value="sintomas"
+                @input="$emit('update:sintomas', $event.target.value)"
+               >
             </textarea>
         </div>
 
         <input 
         class="bg-indigo-600 text-white uppercase font-bold hover:bg-indigo-700 cursor-pointer transition-colors w-full p-3 "
         type="submit"
-        value="Registrar Paciente "
-        @click="validar">
+        :value="[editando ?  'Guardar Cambios' : 'Registrar Paciente']"
+
+       >
     </form>
 </div>
 </template>
