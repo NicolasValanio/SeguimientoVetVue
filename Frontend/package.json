@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tabler/icons-vue": "^3.11.0",
     "sweetalert2": "^11.10.4",
     "uid": "^2.0.2",
     "vue": "^3.3.11"
